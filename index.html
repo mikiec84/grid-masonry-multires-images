@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <title></title>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <script src="js/jquery.js"></script>
+    <style type="text/css">
+    body{
+        font-family: sans-serif; font-size: 1rem;
+    }
+
+
+    figure p { 
+    margin: 0px 0px 2px 0px;
+    text-align: center;
+    color: white;
+    background: rgba(86, 84, 84, 0.7);
+    padding: 1px;
+} 
+/* this item class use for tooltip to change opecity*/
+.item{
+    opacity: 0.8;
+}
+.item:hover{
+    opacity: 1;
+}
+    </style>
+  </head>
+<body class="site-container">   
+    <main>
+        <section id="evoMasonryIntro">
+            <h1 class="evo-text-13" style="margin-bottom: 0;">Masonry Grid</h1>
+            <p class="evo-measure">Pinterest style layout.</p>
+            <div class="evo-space-20"></div>
+        </section>
+        <!-- Masonry -->
+        <section id="evoMasonry">
+            <h2 class="evo-text evo-text-6">Pure CSS Masonry Grid</h2>
+            <p id="total_images"></p>
+            <div class="evo-space"></div>
+                <div class="masonry">
+                </div><!-- masonry -->
+        </section>
+    </main>
+</body>
+</html>
+
+<script type="text/javascript">
+// this function is use for find and replace all occurance of term. and we are using it to remove image ext. and - from image name
+function strReplaceAll(string, Find, Replace) {
+    try {
+        return string.replace( new RegExp(Find, "gi"), Replace );       
+    } catch(ex) {
+        return string;
+    }
+}
+
+// // Label BELOW the image
+// // this function is use for load images from folder and load it on content
+// function load_images(folder)
+// {
+//     $.ajax({
+//     url : folder,
+//     success: function (data) {
+//         var total=0;
+//         $(".masonry").html("");
+//         $(data).find("a").attr("href", function (i, val) {
+//             if( val.match(/\.(jpe?g|png|gif|svg)$/) ) { 
+//                 var imgname=decodeURIComponent(val);
+//                 imgname=strReplaceAll(imgname,"-"," ");
+//                 imgname=strReplaceAll(imgname,"@3x","");
+//                 imgname=strReplaceAll(imgname,"@2x","");
+//                 imgname=strReplaceAll(imgname,"@1x","");
+//                 var arr=imgname.split(".");
+//               var img='<figure class="item tooltip">';
+//     img+=' <span class="tooltiptext">'+arr[0]+'</span>';
+//     img+='<a target="_blank" href='+folder+val+'><img  class="image-bg image-square image-bg-random" src="'+folder+val+'"></a>';
+//     img+='<div class="evo-space-5"></div>';
+//     img+='<p>'+arr[0]+'</p></figure>';
+//                 $(".masonry").append( img);
+//                 total++;
+//             } 
+//         });
+//         $("#total_images").html(total+" items");
+//     }
+// });
+
+// }// load images
+
+
+// Label ABOVE the image
+// this function is use for load images from folder and load it on content
+function load_images(folder)
+{
+    $.ajax({
+    url : folder,
+    success: function (data) {
+        var total=0;
+        $(".masonry").html("");
+        $(data).find("a").attr("href", function (i, val) {
+            if( val.match(/\.(jpe?g|png|gif|svg)$/) ) { 
+                var imgname=decodeURIComponent(val);
+                imgname=strReplaceAll(imgname,"-"," ");
+                imgname=strReplaceAll(imgname,"@3x","");
+                imgname=strReplaceAll(imgname,"@2x","");
+                imgname=strReplaceAll(imgname,"@1x","");
+                var arr=imgname.split(".");
+              var img='<figure class="item tooltip"><p>'+arr[0]+'</p>';
+    img+=' <span class="tooltiptext">'+arr[0]+'</span>';
+    img+='<a target="_blank" href='+folder+val+'><img  class="image-bg image-square image-bg-random" src="'+folder+val+'"></a>';
+    img+='<div class="evo-space-5"></div>';
+    img+='</figure>';
+                $(".masonry").append( img);
+                total++;
+            } 
+        });
+        $("#total_images").html(total+" items");
+    }
+});
+
+}// load images
+
+/// this function checks device width and according to width it will load images from 1x,2x,3x folder
+ function screen_resize() {
+        var h = parseInt(window.innerHeight);
+        var w = parseInt(window.innerWidth);
+
+        if(w <= 500) {
+           load_images("image1x/");
+        } else if(w > 500 && w <=850) {
+             load_images("image2x/");
+        } else {
+            load_images("image3x/");
+        }
+
+    }
+
+/// on resize of window it will call screen resize function to load images from diffrent folder.
+$(window).resize(function(e) {
+        screen_resize();
+    });
+
+// by default it will call images from images folder
+//load_images("images/");
+screen_resize();
+
+
+</script>
