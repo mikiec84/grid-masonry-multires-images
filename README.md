@@ -16,4 +16,6 @@ The label is by default above the image.
 
 Move it to the bottom of the image by adjusting this code within index.html file. Comment out "Label BELOW the image" and uncomment "Label ABOVE the image".
 
+Try using this python script to save out images for each of the folders https://github.com/labelle/image-sizer
+
 For a simpler dynamic cmasonry grid that only pulls images from a single file, check out https://github.com/labelle/grid-masonry-dynamic-images
